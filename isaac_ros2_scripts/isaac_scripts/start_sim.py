@@ -10,7 +10,7 @@
 import sys
 import time
 import signal
-from omni.isaac.kit import SimulationApp
+from isaacsim import SimulationApp
 from distutils.util import strtobool
 
 real_frame_per_second = 0.0

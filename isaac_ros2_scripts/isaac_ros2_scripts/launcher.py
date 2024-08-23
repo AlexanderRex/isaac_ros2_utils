@@ -24,22 +24,11 @@ class SimLancher(Node):
         self.declare_parameter('time_steps_per_second', 600.0)
         time_steps_per_second = self.get_parameter('time_steps_per_second').get_parameter_value().double_value
 
-        self.declare_parameter('isaac_path', '/isaac-sim')
-        isaac_path = self.get_parameter('isaac_path').get_parameter_value().string_value
-        if os.path.isfile(os.path.join(expanduser("~"), '.local/share/ov/pkg/isaac_sim-2023.1.1', 'python.sh')):
-            isaac_path = os.path.join(expanduser("~"), '.local/share/ov/pkg/isaac_sim-2023.1.1')
-            
         self.proc = None
-        
-        python_script = os.path.join(
-                    isaac_path, 'python.sh')
-        if not os.path.isfile(python_script):
-            self.get_logger().fatal('python.sh not found!!')
-            return
         
         start_script = os.path.join(
                     get_package_share_directory('isaac_ros2_scripts'), 'start_sim.py')
-        command = ["bash", python_script, start_script, usd_path, str(fps), str(time_steps_per_second), str(real_fps), "False"]
+        command = ["python", start_script, usd_path, str(fps), str(time_steps_per_second), str(real_fps), "False"]
         print(command)
         os.environ["FASTRTPS_DEFAULT_PROFILES_FILE"]=os.path.join(
                 get_package_share_directory('isaac_ros2_scripts'), 'config/fastdds.xml')
